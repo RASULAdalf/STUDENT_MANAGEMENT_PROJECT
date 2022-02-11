@@ -1,4 +1,7 @@
 import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +10,13 @@ import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class STUDENT_SOFTWARE {
+class Login_AND_CreateUser{
+    //user_details
+    public static int indexNo = 0;
+    public static String name = "";
+    public static String className = "";
+    public static int age = 0;
+    public static String password = "";
 
     public  static void creatingPasswordForNewUser(JFrame mainWindow,JFrame createNewUserWindow, Font saveButtonFont){
         createNewUserWindow.dispose();
@@ -70,25 +79,55 @@ public class STUDENT_SOFTWARE {
         placeholderTextForPassword.setBackground(Color.pink);
         placeholderTextForPassword.setForeground(Color.BLACK);
         placeholderTextForPassword.setFont(Font.getFont("Serif",new Font("Serif",Font.ITALIC,20)));
-        placeholderTextForPassword.setBounds(30,250,320,80);
+        placeholderTextForPassword.setBounds(30,200,320,80);
         placeholderTextForPassword.setEditable(false);
-        userLoginLabel.add(placeholderTextForPassword);
+        createPasswordLabel.add(placeholderTextForPassword);
 
         JPasswordField passwordField = new JPasswordField();
         passwordField.setVisible(true);
         passwordField.setBackground(Color.pink);
         passwordField.setForeground(Color.BLACK);
         passwordField.setFont(Font.getFont("Serif",new Font("Serif",Font.ITALIC,20)));
-        passwordField.setBounds(350,250,250,80);
-        userLoginLabel.add(passwordField);
+        passwordField.setBounds(350,200,250,80);
+        createPasswordLabel.add(passwordField);
 
-        JButton saveButton = new JButton("LOGIN");
+        JTextField reEnterPasswordPlaceholderText = new JTextField("PLS RE-ENTER THE PASSWORD : ");
+        reEnterPasswordPlaceholderText.setVisible(true);
+        reEnterPasswordPlaceholderText.setBackground(Color.pink);
+        reEnterPasswordPlaceholderText.setForeground(Color.BLACK);
+        reEnterPasswordPlaceholderText.setFont(Font.getFont("Serif",new Font("Serif",Font.ITALIC,20)));
+        reEnterPasswordPlaceholderText.setBounds(30,320,320,80);
+        reEnterPasswordPlaceholderText.setEditable(false);
+        createPasswordLabel.add(reEnterPasswordPlaceholderText);
+
+        JPasswordField reEnterpasswordField = new JPasswordField();
+        reEnterpasswordField.setVisible(true);
+        reEnterpasswordField.setBackground(Color.pink);
+        reEnterpasswordField.setForeground(Color.BLACK);
+        reEnterpasswordField.setFont(Font.getFont("Serif",new Font("Serif",Font.ITALIC,20)));
+        reEnterpasswordField.setBounds(350,320,250,80);
+        createPasswordLabel.add(reEnterpasswordField);
+
+        JButton saveButton = new JButton("SAVE");
         saveButton.setVisible(true);
-        saveButton.setBounds(160, 400, 300, 60);
+        saveButton.setBounds(160, 470, 300, 60);
         saveButton.setBackground(Color.green);
         saveButton.setForeground(Color.BLACK);
-        saveButton.setFont(loginButtonFont);
-        userLoginLabel.add(saveButton);
+        saveButton.setFont(saveButtonFont);
+        createPasswordLabel.add(saveButton);
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(passwordField.getPassword() == null|| reEnterpasswordField.getPassword() == null){
+                    JOptionPane.showMessageDialog(createPasswordLabel,"INPUT FIELDS AREN'T COMPLETED");
+                }else if(!Arrays.equals(passwordField.getPassword(), reEnterpasswordField.getPassword())){
+                    JOptionPane.showMessageDialog(createPasswordLabel,"PASSWORDS DOESN'T MATCH");
+                }else {
+                    password = String.valueOf(passwordField.getPassword());
+                    loginUser(mainWindow,saveButtonFont);
+                }
+            }
+        });
 
 
 
@@ -194,7 +233,16 @@ public class STUDENT_SOFTWARE {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                creatingPasswordForNewUser(mainWindow,createNewUserWindow,saveButtonFont);
+                if(nameField.getText().replaceAll("PLEASE ENTER YOUR NAME : ","").equals("")||indexField.getText().replaceAll("PLEASE ENTER YOUR INDEX NO : ","").equals("")||classField.getText().replaceAll("PLEASE ENTER YOUR CLASS : ","").equals("")||ageField.getText().replaceAll("PLEASE ENTER YOUR AGE : ","").equals("")){
+                    JOptionPane.showMessageDialog(userCreateLabel,"INPUT FIELDS AREN'T COMPLETED");
+                }else {
+                    name = nameField.getText().replaceAll("PLEASE ENTER YOUR NAME : ","");
+                    age = Integer.parseInt(ageField.getText().replaceAll("PLEASE ENTER YOUR AGE : ",""));
+                    className = classField.getText().replaceAll("PLEASE ENTER YOUR CLASS : ","");
+                    indexNo = Integer.parseInt(indexField.getText().replaceAll("PLEASE ENTER YOUR INDEX NO : ",""));
+
+                    creatingPasswordForNewUser(mainWindow, createNewUserWindow, saveButtonFont);
+                }
             }
         });
 
@@ -281,85 +329,207 @@ public class STUDENT_SOFTWARE {
         passwordField.setBounds(350,250,250,80);
         userLoginLabel.add(passwordField);
 
-        JButton saveButton = new JButton("LOGIN");
-        saveButton.setVisible(true);
-        saveButton.setBounds(160, 400, 300, 60);
-        saveButton.setBackground(Color.green);
-        saveButton.setForeground(Color.BLACK);
-        saveButton.setFont(loginButtonFont);
-        userLoginLabel.add(saveButton);
-
-    }
-    public static void mainWindow() throws IOException {
-
-        //fonts
-        Font main_window_buttons_font = new Font("Serif", Font.BOLD, 25);
-        Font cpyRight_font = new Font("Serif", Font.BOLD, 15);
-
-        //program
-        JFrame mainWindow = new JFrame("STUDENT MANAGEMENT");
-        mainWindow.setVisible(true);
-        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainWindow.setBounds(250, 20, 650, 650);
-        mainWindow.setResizable(false);
-
-
-        JLabel mainWindowLabel = new JLabel();
-        mainWindowLabel.setVisible(true);
-        mainWindowLabel.setBounds(0, 0, 650, 650);
-        mainWindowLabel.setBackground(Color.BLUE);
-        mainWindow.add(mainWindowLabel);
-
-        JLabel mainIcon = new JLabel();
-        mainIcon.setBounds(180, 30, 60, 60);
-        mainIcon.setVisible(true);
-        mainIcon.setBackground(Color.BLACK);
-        mainWindowLabel.add(mainIcon);
-
-        JButton user_create = new JButton("CREATE A NEW USER");
-        user_create.setVisible(true);
-        user_create.setBounds(30, 210, 580, 80);
-        user_create.setBackground(Color.green);
-        user_create.setForeground(Color.BLACK);
-        user_create.setFont(main_window_buttons_font);
-        mainWindowLabel.add(user_create);
-
-
-        JButton user_login = new JButton("USER LOGIN");
-        user_login.setVisible(true);
-        user_login.setBounds(30, 340, 580, 80);
-        user_login.setBackground(Color.green);
-        user_login.setForeground(Color.BLACK);
-        user_login.setFont(main_window_buttons_font);
-        mainWindowLabel.add(user_login);
-
-        JLabel copyRight = new JLabel("All rights Reserved");
-        copyRight.setVisible(true);
-        copyRight.setBounds(260, 500, 150, 40);
-        copyRight.setFont(cpyRight_font);
-        copyRight.setForeground(Color.GRAY);
-        mainWindowLabel.add(copyRight);
-
-        //all button clicks
-        user_create.addActionListener(new ActionListener() {
+        JButton loginButton = new JButton("LOGIN");
+        loginButton.setVisible(true);
+        loginButton.setBounds(160, 400, 300, 60);
+        loginButton.setBackground(Color.green);
+        loginButton.setForeground(Color.BLACK);
+        loginButton.setFont(loginButtonFont);
+        userLoginLabel.add(loginButton);
+        loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createNewUser(mainWindow,main_window_buttons_font);
-            }
-        });
-
-        user_login.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loginUser(mainWindow,main_window_buttons_font);
+                try {
+                    new afterLoginToFullFunctionality(loginUserWindow);
+                } catch (BadLocationException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
 
     }
 
+        Login_AND_CreateUser() {
+            //fonts
+            Font main_window_buttons_font = new Font("Serif", Font.BOLD, 25);
+            Font cpyRight_font = new Font("Serif", Font.BOLD, 15);
+
+            //program
+            JFrame mainWindow = new JFrame("STUDENT MANAGEMENT");
+            mainWindow.setVisible(true);
+            mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mainWindow.setBounds(250, 20, 650, 650);
+            mainWindow.setResizable(false);
+
+
+            JLabel mainWindowLabel = new JLabel();
+            mainWindowLabel.setVisible(true);
+            mainWindowLabel.setBounds(0, 0, 650, 650);
+            mainWindowLabel.setBackground(Color.BLUE);
+            mainWindow.add(mainWindowLabel);
+
+            JLabel mainIcon = new JLabel();
+            mainIcon.setBounds(180, 30, 60, 60);
+            mainIcon.setVisible(true);
+            mainIcon.setBackground(Color.BLACK);
+            mainWindowLabel.add(mainIcon);
+
+            JButton user_create = new JButton("CREATE A NEW USER");
+            user_create.setVisible(true);
+            user_create.setBounds(30, 210, 580, 80);
+            user_create.setBackground(Color.green);
+            user_create.setForeground(Color.BLACK);
+            user_create.setFont(main_window_buttons_font);
+            mainWindowLabel.add(user_create);
+
+
+            JButton user_login = new JButton("USER LOGIN");
+            user_login.setVisible(true);
+            user_login.setBounds(30, 340, 580, 80);
+            user_login.setBackground(Color.green);
+            user_login.setForeground(Color.BLACK);
+            user_login.setFont(main_window_buttons_font);
+            mainWindowLabel.add(user_login);
+
+            JLabel copyRight = new JLabel("All rights Reserved");
+            copyRight.setVisible(true);
+            copyRight.setBounds(260, 500, 150, 40);
+            copyRight.setFont(cpyRight_font);
+            copyRight.setForeground(Color.GRAY);
+            mainWindowLabel.add(copyRight);
+
+            //all button clicks
+            user_create.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    createNewUser(mainWindow, main_window_buttons_font);
+                }
+            });
+
+            user_login.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    loginUser(mainWindow, main_window_buttons_font);
+                }
+            });
+
+
+        }
+    }
+
+class afterLoginToFullFunctionality{
+    afterLoginToFullFunctionality(JFrame beforeWindow) throws BadLocationException {
+        beforeWindow.dispose();
+        JFrame mainFrame = new JFrame("STUDENT MANAGEMENT");
+        mainFrame.setBounds(250,20,670,650);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel mainLabel = new JLabel();
+        mainLabel.setVisible(true);
+        mainLabel.setBounds(0,0,620,650);
+        mainFrame.add(mainLabel);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setVisible(true);
+        mainPanel.setBounds(0,120,620,550);
+
+
+        mainLabel.add(mainPanel);
+
+        JLabel pictureLabel = new JLabel("picture");
+        pictureLabel.setBounds(180,30,60,60);
+        pictureLabel.setVisible(true);
+        mainPanel.add(pictureLabel);
+
+        JEditorPane profileDetails = new JEditorPane();
+        JScrollPane scrollPane = new JScrollPane(mainPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        mainPanel.add(profileDetails);
+        profileDetails.setBounds(0,0,620,530);
+        profileDetails.setVisible(true);
+        profileDetails.setContentType("text/html");
+        profileDetails.setText(
+                "<html>" +
+                        "<body>" +
+                        "<h1><center>" +
+                        "RASULA" +
+                        "</center></h1" +
+                        "<p>age : 15" +
+                        "</p>" +
+                        "<p>class : 10c</p>" +
+                        "<p>index : 20464</p>" +
+                        "<p>email : g.gmali.com</p>" +
+                        "<p>life story : </p>" +
+                        "</body>" +
+                        "</html>"
+
+        );
+        mainFrame.setVisible(true);
+        profileDetails.setEditable(false);
+        mainFrame.add(scrollPane);
+
+        JMenuBar menuBar = new JMenuBar();
+        mainFrame.setJMenuBar(menuBar);
+        menuBar.setVisible(true);
+
+        JMenu save = new JMenu("SAVE");
+        menuBar.add(save);
+        save.addMenuListener(new MenuListener() {
+            @Override
+            public void menuSelected(MenuEvent e) {
+                JOptionPane.showMessageDialog(mainFrame,"SAVED SUCCESSFULLY!");
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+
+            }
+        });
+
+        JMenu change = new JMenu("CHANGE");
+        menuBar.add(change);
+        change.addMenuListener(new MenuListener() {
+            @Override
+            public void menuSelected(MenuEvent e) {
+                profileDetails.setEditable(true);
+
+            }
+
+            @Override
+            public void menuDeselected(MenuEvent e) {
+
+            }
+
+            @Override
+            public void menuCanceled(MenuEvent e) {
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+    }
+}
+
+public class STUDENT_SOFTWARE {
     public static void main(String args[]) throws IOException {
 
-        mainWindow();
+        Login_AND_CreateUser authPassOrCreate = new Login_AND_CreateUser();
+
+
+
     }
 }
