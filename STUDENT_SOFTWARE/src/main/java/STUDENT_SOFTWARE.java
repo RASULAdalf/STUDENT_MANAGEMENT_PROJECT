@@ -477,7 +477,7 @@ class afterLoginToFullFunctionality{
         save.addMenuListener(new MenuListener() {
             @Override
             public void menuSelected(MenuEvent e) {
-                JOptionPane.showMessageDialog(mainFrame,"SAVED SUCCESSFULLY!");
+                JOptionPane.showMessageDialog(mainLabel,"SAVED SUCCESSFULLY!");
             }
 
             @Override
