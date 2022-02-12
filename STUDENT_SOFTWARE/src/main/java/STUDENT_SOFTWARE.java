@@ -1,13 +1,8 @@
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.IOException;
 import java.util.Arrays;
 
 class Login_AND_CreateUser{
@@ -115,17 +110,14 @@ class Login_AND_CreateUser{
         saveButton.setForeground(Color.BLACK);
         saveButton.setFont(saveButtonFont);
         createPasswordLabel.add(saveButton);
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(passwordField.getPassword() == null|| reEnterpasswordField.getPassword() == null){
-                    JOptionPane.showMessageDialog(createPasswordLabel,"INPUT FIELDS AREN'T COMPLETED");
-                }else if(!Arrays.equals(passwordField.getPassword(), reEnterpasswordField.getPassword())){
-                    JOptionPane.showMessageDialog(createPasswordLabel,"PASSWORDS DOESN'T MATCH");
-                }else {
-                    password = String.valueOf(passwordField.getPassword());
-                    loginUser(mainWindow,saveButtonFont);
-                }
+        saveButton.addActionListener(e -> {
+            if(passwordField.getPassword() == null|| reEnterpasswordField.getPassword() == null){
+                JOptionPane.showMessageDialog(createPasswordLabel,"INPUT FIELDS AREN'T COMPLETED");
+            }else if(!Arrays.equals(passwordField.getPassword(), reEnterpasswordField.getPassword())){
+                JOptionPane.showMessageDialog(createPasswordLabel,"PASSWORDS DOESN'T MATCH");
+            }else {
+                password = String.valueOf(passwordField.getPassword());
+                loginUser(mainWindow,saveButtonFont);
             }
         });
 
@@ -230,19 +222,16 @@ class Login_AND_CreateUser{
         userCreateLabel.add(saveButton);
 
         //all button clicks
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(nameField.getText().replaceAll("PLEASE ENTER YOUR NAME : ","").equals("")||indexField.getText().replaceAll("PLEASE ENTER YOUR INDEX NO : ","").equals("")||classField.getText().replaceAll("PLEASE ENTER YOUR CLASS : ","").equals("")||ageField.getText().replaceAll("PLEASE ENTER YOUR AGE : ","").equals("")){
-                    JOptionPane.showMessageDialog(userCreateLabel,"INPUT FIELDS AREN'T COMPLETED");
-                }else {
-                    name = nameField.getText().replaceAll("PLEASE ENTER YOUR NAME : ","");
-                    age = Integer.parseInt(ageField.getText().replaceAll("PLEASE ENTER YOUR AGE : ",""));
-                    className = classField.getText().replaceAll("PLEASE ENTER YOUR CLASS : ","");
-                    indexNo = Integer.parseInt(indexField.getText().replaceAll("PLEASE ENTER YOUR INDEX NO : ",""));
+        saveButton.addActionListener(e -> {
+            if(nameField.getText().replaceAll("PLEASE ENTER YOUR NAME : ","").equals("")||indexField.getText().replaceAll("PLEASE ENTER YOUR INDEX NO : ","").equals("")||classField.getText().replaceAll("PLEASE ENTER YOUR CLASS : ","").equals("")||ageField.getText().replaceAll("PLEASE ENTER YOUR AGE : ","").equals("")){
+                JOptionPane.showMessageDialog(userCreateLabel,"INPUT FIELDS AREN'T COMPLETED");
+            }else {
+                name = nameField.getText().replaceAll("PLEASE ENTER YOUR NAME : ","");
+                age = Integer.parseInt(ageField.getText().replaceAll("PLEASE ENTER YOUR AGE : ",""));
+                className = classField.getText().replaceAll("PLEASE ENTER YOUR CLASS : ","");
+                indexNo = Integer.parseInt(indexField.getText().replaceAll("PLEASE ENTER YOUR INDEX NO : ",""));
 
-                    creatingPasswordForNewUser(mainWindow, createNewUserWindow, saveButtonFont);
-                }
+                creatingPasswordForNewUser(mainWindow, createNewUserWindow, saveButtonFont);
             }
         });
 
@@ -336,14 +325,11 @@ class Login_AND_CreateUser{
         loginButton.setForeground(Color.BLACK);
         loginButton.setFont(loginButtonFont);
         userLoginLabel.add(loginButton);
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    new afterLoginToFullFunctionality(loginUserWindow);
-                } catch (BadLocationException ex) {
-                    ex.printStackTrace();
-                }
+        loginButton.addActionListener(e -> {
+            try {
+                new afterLoginToFullFunctionality(loginUserWindow);
+            } catch (BadLocationException ex) {
+                ex.printStackTrace();
             }
         });
 
@@ -400,19 +386,9 @@ class Login_AND_CreateUser{
             mainWindowLabel.add(copyRight);
 
             //all button clicks
-            user_create.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    createNewUser(mainWindow, main_window_buttons_font);
-                }
-            });
+            user_create.addActionListener(e -> createNewUser(mainWindow, main_window_buttons_font));
 
-            user_login.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    loginUser(mainWindow, main_window_buttons_font);
-                }
-            });
+            user_login.addActionListener(e -> loginUser(mainWindow, main_window_buttons_font));
 
 
         }
@@ -421,113 +397,72 @@ class Login_AND_CreateUser{
 class afterLoginToFullFunctionality{
     afterLoginToFullFunctionality(JFrame beforeWindow) throws BadLocationException {
         beforeWindow.dispose();
-        JFrame mainFrame = new JFrame("STUDENT MANAGEMENT");
-        mainFrame.setBounds(250,20,670,650);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JLabel mainLabel = new JLabel();
-        mainLabel.setVisible(true);
-        mainLabel.setBounds(0,0,620,650);
-        mainFrame.add(mainLabel);
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setVisible(true);
-        mainPanel.setBounds(0,120,620,550);
+        JFrame frame = new JFrame("STUDENT PROFILE");
+        frame.setBounds(150,30,700,700);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
-        mainLabel.add(mainPanel);
+
+        JPanel panel = new JPanel();
+        panel.setBounds(0,130,700,570);
+        panel.setLayout(new FlowLayout());
+        panel.setVisible(true);
+
+
+
+        JLabel label = new JLabel();
+        label.setBounds(0,0,700,700);
+        label.setVisible(true);
+
+        JButton saveButton = new JButton("SAVE");
+        saveButton.setBounds(20,605,300,50);
+        saveButton.setFont(new Font("Serif", Font.BOLD, 25));
+        saveButton.setBackground(Color.green);
+        saveButton.setForeground(Color.BLACK);
+        saveButton.setVisible(true);
+        label.add(saveButton);
+
+        JButton changeButton = new JButton("CHANGE");
+        changeButton.setBounds(360,605,300,50);
+        changeButton.setFont(new Font("Serif", Font.BOLD, 25));
+        changeButton.setBackground(Color.green);
+        changeButton.setForeground(Color.BLACK);
+        label.add(changeButton);
+        changeButton.setVisible(true);
+
+        label.add(panel);
 
         JLabel pictureLabel = new JLabel("picture");
-        pictureLabel.setBounds(180,30,60,60);
+        pictureLabel.setBounds(250,20,90,60);
         pictureLabel.setVisible(true);
-        mainPanel.add(pictureLabel);
+        label.add(pictureLabel);
 
-        JEditorPane profileDetails = new JEditorPane();
-        JScrollPane scrollPane = new JScrollPane(mainPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        mainPanel.add(profileDetails);
-        profileDetails.setBounds(0,0,620,530);
-        profileDetails.setVisible(true);
-        profileDetails.setContentType("text/html");
-        profileDetails.setText(
-                "<html>" +
-                        "<body>" +
-                        "<h1><center>" +
-                        "RASULA" +
-                        "</center></h1" +
-                        "<p>age : 15" +
-                        "</p>" +
-                        "<p>class : 10c</p>" +
-                        "<p>index : 20464</p>" +
-                        "<p>email : g.gmali.com</p>" +
-                        "<p>life story : </p>" +
-                        "</body>" +
-                        "</html>"
-
-        );
-        mainFrame.setVisible(true);
-        profileDetails.setEditable(false);
-        mainFrame.add(scrollPane);
-
-        JMenuBar menuBar = new JMenuBar();
-        mainFrame.setJMenuBar(menuBar);
-        menuBar.setVisible(true);
-
-        JMenu save = new JMenu("SAVE");
-        menuBar.add(save);
-        save.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                JOptionPane.showMessageDialog(mainLabel,"SAVED SUCCESSFULLY!");
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-
-            }
-        });
-
-        JMenu change = new JMenu("CHANGE");
-        menuBar.add(change);
-        change.addMenuListener(new MenuListener() {
-            @Override
-            public void menuSelected(MenuEvent e) {
-                profileDetails.setEditable(true);
-
-            }
-
-            @Override
-            public void menuDeselected(MenuEvent e) {
-
-            }
-
-            @Override
-            public void menuCanceled(MenuEvent e) {
-
-            }
-        });
+        JTextArea area = new JTextArea(20,51);
+        area.setVisible(true);
+        area.setBounds(100,100,400,400);
+        area.setEditable(false);
+        area.setFont(new Font("Serif",Font.BOLD,15));
+        area.append("\nNAME : \n\nAGE : \n\nEMAIL : \n\nCLASS : \n\nINDEX NUMBER : \n\nLIFE STORY : ");
+        JScrollPane pane = new JScrollPane(area);
+        panel.add(pane);
 
 
 
+        frame.getContentPane().add(label);
+        frame.setVisible(true);
 
-
-
-
-
-
-
+        //button clicks
+        changeButton.addActionListener(e -> area.setEditable(true));
+        saveButton.addActionListener(e -> JOptionPane.showMessageDialog(label,"DATA SAVED SUCCESSFULLY !"));
 
     }
 }
 
+@SuppressWarnings("InstantiationOfUtilityClass")
 public class STUDENT_SOFTWARE {
-    public static void main(String args[]) throws IOException {
+    public static void main(String[] args) {
 
-        Login_AND_CreateUser authPassOrCreate = new Login_AND_CreateUser();
+        new Login_AND_CreateUser();
 
 
 
