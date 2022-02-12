@@ -27,7 +27,7 @@ public class Test {
         con2.setRequestProperty("User-Agent","Mozilla/5.0");
         con2.setDoOutput(true);
         OutputStream os = con2.getOutputStream();
-        os.write(new String("user=r").getBytes());
+        os.write("user=r".getBytes());
         os.flush();os.close();
 
 
